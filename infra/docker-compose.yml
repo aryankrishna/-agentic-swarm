@@ -1,0 +1,31 @@
+services:
+  graph:
+    image: neo4j:5
+    container_name: infra-graph-1
+    environment:
+      - NEO4J_AUTH=neo4j/testtest
+      - NEO4JLABS_PLUGINS=["apoc","n10s"]
+      - NEO4J_server_default__listen__address=0.0.0.0
+      - NEO4J_server_default__advertised__address=localhost
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - ./data/neo4j:/data
+
+  app:
+    build:
+      context: ..
+    container_name: agentic-app
+    ports:
+      - "8501:8501"
+    environment:
+      - PYTHONPATH=/app
+      - NEO4J_URI=bolt://graph:7687
+      - NEO4J_USER=neo4j
+      - NEO4J_PASSWORD=testtest
+    depends_on:
+      - graph
+    volumes:
+      - ../data:/app/data
+
