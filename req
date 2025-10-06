@@ -1,0 +1,4 @@
+
+# semantic RAG
+sentence-transformers==2.7.0
+chromadb==0.5.5
