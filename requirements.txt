@@ -1,0 +1,11 @@
+streamlit
+langchain
+langchain-community
+sentence-transformers
+chromadb
+tiktoken
+neo4j
+python-dotenv
+pydantic
+pytesseract==0.3.10
+Pillow==10.4.0
