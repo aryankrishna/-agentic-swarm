@@ -164,6 +164,16 @@ if st.button("Ask"):
                 final_answer = snippet
                 break
 
+    # ----- OPTIONAL: append math result when graph answered -----
+    if decision_used == "graph":
+        try:
+            math_extra = eval_math(q2)
+            if math_extra is not None:
+                final_answer = (final_answer or "") + f"\n{math_extra}"
+        except Exception:
+            pass
+    # -----------------------------------------------------------
+
     # If nothing answered yet but we have partials, try to combine (optional)
     if final_answer is None:
         final_answer = combine_answers(graph_ans, vector_ans)
