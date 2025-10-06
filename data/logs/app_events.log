@@ -1,0 +1,46 @@
+{"timestamp": "2025-10-06T01:09:38.771887", "question": "Tesla Ceo?", "mode": "Auto (Router)"}
+{"timestamp": "2025-10-06T01:50:02.714597", "question": "Elon musk is CEO of tesla", "mode": "Vector (TF-IDF)"}
+{"timestamp": "2025-10-06T12:44:28.732857", "question": "Who is Tesla\u2019s CEO?", "mode": "Vector (TF-IDF)"}
+{"timestamp": "2025-10-06T12:45:55.415375", "question": "Who is the CEO of Tesla? ", "mode": "Graph (Neo4j)"}
+{"timestamp": "2025-10-06T12:46:22.854868", "question": "Does Ibuprofen interact with Aspirin?", "mode": "Graph (Neo4j)"}
+{"timestamp": "2025-10-06T12:46:50.438430", "question": "Who is the CEO of Tesla?", "mode": "Graph (Neo4j)"}
+{"timestamp": "2025-10-06T12:51:49.366092", "question": "100+20", "mode": "Auto (Router)"}
+{"timestamp": "2025-10-06T12:51:59.783717", "question": "Who is Tesla\u2019s CEO? ", "mode": "Auto (Router)"}
+{"timestamp": "2025-10-06T12:52:06.139858", "question": "Who is Tesla\u2019s CEO? ", "mode": "Vector (TF-IDF)"}
+{"timestamp": "2025-10-06T12:52:09.023125", "question": "Who is Tesla\u2019s CEO? ", "mode": "Auto (Router)"}
+{"timestamp": "2025-10-06T12:52:31.249772", "question": "Elon musk is CEO of tesla", "mode": "Auto (Router)"}
+{"timestamp": "2025-10-06T12:52:40.748308", "question": "Elon musk is CEO of tesla", "mode": "Auto (Router)"}
+{"timestamp": "2025-10-06T12:57:56.948931", "question": " Who is Tesla\u2019s CEO?\n\n[Image OCR]: Elon musk is CEO of tesla", "mode": "Vector (TF-IDF)"}
+{"timestamp": "2025-10-06T12:58:13.777418", "question": "Who is the CEO of Tesla?", "mode": "Graph (Neo4j)"}
+{"timestamp": "2025-10-06T12:58:29.650908", "question": "Does Ibuprofen interact with Aspirin? ", "mode": "Graph (Neo4j)"}
+{"timestamp": "2025-10-06T13:00:08.037170", "question": "who is tesla's ceo?", "mode": "Graph (Neo4j)"}
+{"timestamp": "2025-10-06T13:02:57.517690", "question": "Who is the CEO of Tesla?", "mode": "Graph (Neo4j)"}
+{"timestamp": "2025-10-06T13:03:46.471221", "question": "Who is Tesla's Ceo?", "mode": "Graph (Neo4j)"}
+{"timestamp": "2025-10-06T13:05:12.515338", "question": "Who is Tesla's Ceo?", "mode": "Graph (Neo4j)"}
+{"timestamp": "2025-10-06T13:07:02.131848", "question": "Tesla CEO", "mode": "Graph (Neo4j)"}
+{"timestamp": "2025-10-06T13:07:03.324798", "question": "Tesla CEO", "mode": "Graph (Neo4j)"}
+{"timestamp": "2025-10-06T13:07:09.929593", "question": "Tesla CEO", "mode": "Graph (Neo4j)"}
+{"timestamp": "2025-10-06T13:07:19.130169", "question": "Who runs Tesla?", "mode": "Graph (Neo4j)"}
+{"timestamp": "2025-10-06T13:38:34.559523", "question": "Who is Tesla Ceo?", "mode": "Graph (Neo4j)"}
+{"timestamp": "2025-10-06T13:40:34.223693", "question": "Who is the CEO of Tesla?", "mode": "Graph (Neo4j)"}
+{"timestamp": "2025-10-06T13:40:52.715218", "question": "Do Ibuprofen and Aspirin interact?", "mode": "Graph (Neo4j)"}
+{"timestamp": "2025-10-06T13:41:17.723209", "question": "Who is the CEO of Tesla?", "mode": "Graph (Neo4j)"}
+{"timestamp": "2025-10-06T13:51:39.363694", "question": "Tesla Ceo?", "mode": "Vector (TF-IDF)"}
+{"timestamp": "2025-10-06T13:51:42.805713", "question": "Tesla Ceo?", "mode": "Auto (Router)"}
+{"timestamp": "2025-10-06T13:59:51.449710", "question": "Who is the CEO of Tesla?", "mode": "Graph (Neo4j)"}
+{"timestamp": "2025-10-06T14:00:40.552451", "question": "tesla ceo?", "mode": "Graph (Neo4j)"}
+{"timestamp": "2025-10-06T14:01:51.159407", "question": "Do Ibuprofen and Aspirin interact?", "mode": "Graph (Neo4j)"}
+{"timestamp": "2025-10-06T14:15:18.214522", "question": "TESLA CEO?", "mode": "Vector (TF-IDF)"}
+{"timestamp": "2025-10-06T15:02:39.378354", "question": "Who is the CEO of Tesla?", "mode": "Graph (Neo4j)"}
+{"timestamp": "2025-10-06T15:05:03.551567", "question": "Who is the CEO of Tesla?", "mode": "Vector (TF-IDF)"}
+{"timestamp": "2025-10-06T15:10:53.778927", "question": "Who is the CEO of Tesla?\n\n[Image OCR]: Elon musk is CEO of tesla", "mode": "Auto (Router)"}
+{"timestamp": "2025-10-06T15:11:55.424476", "question": "Who is CEO of tesla", "mode": "Auto (Router)"}
+{"timestamp": "2025-10-06T15:12:18.604778", "question": "Who is CEO of Apple", "mode": "Auto (Router)"}
+{"timestamp": "2025-10-06T15:14:33.666048", "question": "Is acetaminophen an NSAID?\n\n[Image OCR]: Who is CEO of Apple", "mode": "Vector (TF-IDF)"}
+{"timestamp": "2025-10-06T15:15:36.502870", "question": "What is 100 - 20? Also, who is the CEO of Tesla?", "mode": "Auto (Router)"}
+{"timestamp": "2025-10-06T15:16:44.052088", "question": "Who is the CEO of Tesla, and what is 100 - 20?", "mode": "Auto (Router)"}
+{"timestamp": "2025-10-06T15:28:49.902738", "question": "Who is the Ceo of Tesla? and also what is 100-20", "mode": "Auto (Router)"}
+{"timestamp": "2025-10-06T15:29:16.913122", "question": "tesla ceo?", "mode": "Vector (TF-IDF)"}
+{"timestamp": "2025-10-06T15:30:23.975561", "question": "1000-90", "mode": "Graph (Neo4j)"}
+{"timestamp": "2025-10-06T15:30:27.270265", "question": "1000-90", "mode": "Auto (Router)"}
+{"timestamp": "2025-10-06T15:30:33.333258", "question": "tesla ceo", "mode": "Auto (Router)"}

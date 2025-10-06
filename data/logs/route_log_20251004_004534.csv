@@ -1,0 +1,11 @@
+ts,question,rewritten,decision,had_answer,latency_ms
+2025-10-04T04:24:05.489064,97B + 20%,97B + 20%,graph,1,0
+2025-10-04T04:24:17.943464,Who is Tesla’s CEO?,Who is Tesla’s CEO?,graph,1,11
+2025-10-04T04:24:28.378339,Query with vector,Query with vector,vector,1,15
+2025-10-04T04:24:42.714519,Debug and log everything with latency + answer status,Debug and log everything with latency + answer status,vector,1,2
+2025-10-04T04:36:59.744403,97B + 20%,97B + 20%,math,1,0
+2025-10-04T04:37:11.880298,93B + 20%,93B + 20%,math,1,0
+2025-10-04T04:37:19.135582,99B + 20%,99B + 20%,math,1,0
+2025-10-04T04:37:25.143551,9B + 20%,9B + 20%,math,1,0
+2025-10-04T04:38:05.897647,97B - 20% ,97B - 20%,math,1,0
+2025-10-04T04:38:25.901430,12M + 3.5B ,12M + 3.5B,math,1,0
