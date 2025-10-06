@@ -44,3 +44,7 @@
 {"timestamp": "2025-10-06T15:30:23.975561", "question": "1000-90", "mode": "Graph (Neo4j)"}
 {"timestamp": "2025-10-06T15:30:27.270265", "question": "1000-90", "mode": "Auto (Router)"}
 {"timestamp": "2025-10-06T15:30:33.333258", "question": "tesla ceo", "mode": "Auto (Router)"}
+{"timestamp": "2025-10-06T16:59:46.469587", "question": "Metformin side effects", "mode": "Vector (TF-IDF)"}
+{"timestamp": "2025-10-06T17:43:52.132771", "question": "Metformin side effects", "mode": "Vector (TF-IDF)"}
+{"timestamp": "2025-10-06T17:44:05.458650", "question": "Who is the CEO of Tesla?", "mode": "Graph (Neo4j)"}
+{"timestamp": "2025-10-06T17:44:19.021509", "question": "80 * 1.5 ", "mode": "Auto (Router)"}

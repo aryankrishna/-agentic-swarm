@@ -73,3 +73,7 @@ ts,question,rewritten,decision,had_answer,latency_ms
 2025-10-06T15:30:23.976812,1000-90,1000-90,math,1,0
 2025-10-06T15:30:27.271485,1000-90,1000-90,math,1,0
 2025-10-06T15:30:33.335561,tesla ceo,tesla ceo,vector,1,1
+2025-10-06T16:59:46.488467,Metformin side effects,Metformin side effects,vector,1,14
+2025-10-06T17:43:52.143615,Metformin side effects,Metformin side effects,vector,1,8
+2025-10-06T17:44:05.500789,Who is the CEO of Tesla?,Who is the CEO of Tesla?,graph,1,40
+2025-10-06T17:44:19.022687,80 * 1.5 ,80 * 1.5,math,1,0

@@ -38,11 +38,22 @@ load_dotenv()
 # tools & pipelines
 from services.vector.query_tfidf import query_vector
 from services.graph.graph_qa import query_graph
+from services.vector.query_embed import query_vector_semantic
 from services.router.logger import log_route
 from services.agent.planner import decide_tasks, rewrite_question, combine_answers
 from services.tools.math_eval import eval_math
 from services.tools.num_parse import parse_human_number  # (used by math_eval)
 from services.tools.ocr import extract_text
+
+# --- helper: dynamic route order ---
+def auto_route_order(question: str):
+    q_lower = question.lower()
+    if any(x in q_lower for x in ["who", "ceo", "interact", "relation"]):
+        return ["graph", "vector_semantic"]
+    elif any(x in q_lower for x in ["image", "ocr", "photo"]):
+        return ["ocr", "vector_semantic"]
+    else:
+        return ["vector_semantic", "graph"]
 
 # ---------------- UI ----------------
 st.set_page_config(page_title="Agentic Swarm — Vector + Graph RAG", page_icon="🧭")
@@ -51,7 +62,10 @@ st.title("Agentic Swarm — RAG Demo (Vector + Graph + Router)")
 # warm/start the bandit from existing logs (cheap + fast)
 bandit = offline_learn_from_csv()
 
-mode = st.sidebar.radio("Mode", ["Vector (TF-IDF)", "Graph (Neo4j)", "Auto (Router)"])
+mode = st.sidebar.radio(
+    "Mode",
+    ["Vector (TF-IDF)", "Vector (Semantic)", "Graph (Neo4j)", "Auto (Router)"]
+)
 k = st.sidebar.slider("Top-k (Vector)", 1, 8, 4, 1)
 q = st.text_input("Ask a question (e.g., 'Metformin side effects', 'Who is Tesla’s CEO?')")
 
@@ -110,17 +124,26 @@ if st.button("Ask"):
     if mode == "Vector (TF-IDF)":
         tasks = ["vector"]
         router_caption = "VECTOR (manual)"
+
+    elif mode == "Vector (Semantic)":
+        tasks = ["vector_semantic"]
+        router_caption = "SEMANTIC (manual)"
+
     elif mode == "Graph (Neo4j)":
         tasks = ["graph"]
         router_caption = "GRAPH (manual)"
+
     else:
-        planner_tasks = decide_tasks(q2)  # e.g., ["math","graph","vector"]
+        # Auto: planner decides viable tools; allow semantic
+        planner_tasks = decide_tasks(q2)  # e.g., ["math","graph","vector_semantic"] etc.
         if len(planner_tasks) > 1:
-            chosen = bandit.select()  # one of ["vector","graph","math"]
+            chosen = bandit.select()  # one of ["vector","vector_semantic","graph","math"]
             if chosen == "math":
                 tasks = ["math"] + [t for t in planner_tasks if t != "math"]
             elif chosen == "graph":
                 tasks = ["graph"] + [t for t in planner_tasks if t != "graph"]
+            elif chosen == "vector_semantic":
+                tasks = ["vector_semantic"] + [t for t in planner_tasks if t != "vector_semantic"]
             else:
                 tasks = ["vector"] + [t for t in planner_tasks if t != "vector"]
             router_caption = "AGENT (bandit + planner)"
@@ -155,6 +178,15 @@ if st.button("Ask"):
                 final_answer = ans
                 break
 
+        elif tool == "vector_semantic":
+            docs, metas, ids, v_latency = query_vector_semantic(q2, k=k)
+            if docs and str(docs[0]).strip():
+                snippet = docs[0][:800] + ("..." if len(docs[0]) > 800 else "")
+                decision_used = "vector_semantic"
+                vector_ans = snippet
+                final_answer = snippet
+                break
+
         elif tool == "vector":
             docs, metas, ids, v_latency = query_vector(q2, k=k)
             if docs and docs[0].strip():
@@ -164,7 +196,7 @@ if st.button("Ask"):
                 final_answer = snippet
                 break
 
-    # ----- OPTIONAL: append math result when graph answered -----
+    # OPTIONAL: append math result when graph answered
     if decision_used == "graph":
         try:
             math_extra = eval_math(q2)
@@ -172,7 +204,6 @@ if st.button("Ask"):
                 final_answer = (final_answer or "") + f"\n{math_extra}"
         except Exception:
             pass
-    # -----------------------------------------------------------
 
     # If nothing answered yet but we have partials, try to combine (optional)
     if final_answer is None:
