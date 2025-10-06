@@ -145,8 +145,8 @@ if st.button("Ask"):
             elif chosen == "vector_semantic":
                 tasks = ["vector_semantic"] + [t for t in planner_tasks if t != "vector_semantic"]
             else:
-                tasks = ["vector"] + [t for t in planner_tasks if t != "vector"]
-            router_caption = "AGENT (bandit + planner)"
+                tasks = ["vector"] + [t for t in planner_tasks if t not in ["vector", "vector_semantic"]]
+            router_caption = f"AGENT (bandit + planner → {chosen})"
         else:
             tasks = planner_tasks
             router_caption = "AGENT (planner)"

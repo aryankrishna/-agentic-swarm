@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  graph:
+    image: neo4j:5
+    container_name: infra-graph-1
+    restart: unless-stopped
+    environment:
+      - NEO4J_AUTH=${NEO4J_USER}/${NEO4J_PASSWORD}
+      - NEO4J_PLUGINS=${NEO4J_PLUGINS}
+      - NEO4J_server_default__listen__address=0.0.0.0
+      - NEO4J_server_default__advertised__address=graph
+      - NEO4J_dbms_security_procedures_unrestricted=apoc.**
+      - NEO4J_dbms_security_procedures_allowlist=apoc.**
+    ports:
+      - "7474:7474"   # HTTP
+      - "7687:7687"   # Bolt
+    volumes:
+      - ../data/neo4j:/data
+
+  app:
+    build:
+      context: ..
+    container_name: agentic-app
+    restart: unless-stopped
+    env_file:
+      - ../.env.prod
+    environment:
+      - STREAMLIT_SERVER_PORT=${STREAMLIT_SERVER_PORT}
+      - STREAMLIT_SERVER_ADDRESS=${STREAMLIT_SERVER_ADDRESS}
+    ports:
+      - "8501:8501"
+    depends_on:
+      - graph
+    volumes:
+      - ../data:/app/data
