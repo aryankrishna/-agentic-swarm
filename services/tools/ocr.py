@@ -1,4 +1,5 @@
 from typing import Tuple
+from services.tools.ocr_agent import extract_text
 from time import perf_counter
 from PIL import Image
 import pytesseract

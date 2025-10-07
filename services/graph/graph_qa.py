@@ -1,51 +1,63 @@
-# services/graph/graph_qa.py
-import os
+import os, re
 from typing import Tuple, List
 from neo4j import GraphDatabase
 
+# Read connection from env (compose already sets these)
 URI  = os.getenv("NEO4J_URI", "bolt://graph:7687")
 USER = os.getenv("NEO4J_USER", "neo4j")
 PWD  = os.getenv("NEO4J_PASSWORD", "testtest")
 
-def _session():
-    drv = GraphDatabase.driver(URI, auth=(USER, PWD))
-    return drv.session(database="neo4j")
+_driver = GraphDatabase.driver(URI, auth=(USER, PWD))
 
-def query_graph(q: str) -> Tuple[str, List[str]]:
+def _ceo_of(company: str) -> Tuple[str, List[str]]:
+    q = """
+    MATCH (p:Person)-[:CEO_OF]->(c:Company {name:$company})
+    RETURN p.name AS ceo, c.name AS company
+    LIMIT 1
     """
-    Simple router for graph queries:
-      - 'ceo of tesla' → returns CEO name from (Person)-[:CEO_OF]->(Company{name:'Tesla'})
-      - 'ibuprofen' & 'aspirin' & 'interact' → checks INTERACTS_WITH between the two drugs
-    Returns: (answer_text, sources_list)
+    with _driver.session(database="neo4j") as s:
+        rec = s.run(q, company=company.title()).single()
+        if not rec:
+            return "", []
+        return f"{rec['ceo']} is the CEO of {rec['company']}.", [
+            f"Neo4j: (Person)-[:CEO_OF]->(Company name='{company.title()}')"
+        ]
+
+def _company_led_by(person: str) -> Tuple[str, List[str]]:
+    q = """
+    MATCH (p:Person {name:$person})-[:CEO_OF]->(c:Company)
+    RETURN p.name AS person, c.name AS company
+    LIMIT 1
     """
-    text = (q or "").lower().strip()
-    sources = ["Neo4j (local)"]
+    with _driver.session(database="neo4j") as s:
+        rec = s.run(q, person=person.title()).single()
+        if not rec:
+            return "", []
+        return f"{rec['person']} leads {rec['company']}.", [
+            f"Neo4j: (Person name='{person.title()}')-[:CEO_OF]->(Company)"
+        ]
 
-    # --- Case A: CEO of Tesla ---
-    if "ceo" in text and "tesla" in text:
-        cypher = """
-        MATCH (p:Person)-[:CEO_OF]->(c:Company {name:'Tesla'})
-        RETURN p.name AS ceo, c.name AS company
-        LIMIT 1
-        """
-        with _session() as s:
-            rows = [r.data() for r in s.run(cypher)]
-        if rows:
-            return f"{rows[0]['ceo']} is the CEO of {rows[0]['company']}.", sources
-        return "No CEO found for Tesla in the graph.", sources
+def query_graph(question: str) -> Tuple[str, List[str]]:
+    qn = (question or "").strip().lower()
+    if not qn:
+        return "", []
 
-    # --- Case B: Drug interaction: Ibuprofen & Aspirin ---
-    if ("interact" in text) and ("ibuprofen" in text) and ("aspirin" in text):
-        cypher = """
-        MATCH (a:Drug {name:'Ibuprofen'})-[:INTERACTS_WITH]-(b:Drug {name:'Aspirin'})
-        RETURN a.name AS a, b.name AS b
-        LIMIT 1
-        """
-        with _session() as s:
-            rows = [r.data() for r in s.run(cypher)]
-        if rows:
-            return f"{rows[0]['a']} can interact with {rows[0]['b']}.", sources
-        return "No interaction between Ibuprofen and Aspirin found in the graph.", sources
+    # CEO of company (cover: "ceo of X", "who runs X", "who is the ceo of X")
+    m = (
+        re.search(r"ceo\s+of\s+([a-z&\-\s]+)\??$", qn)
+        or re.search(r"who\s+runs\s+([a-z&\-\s]+)\??$", qn)
+        or re.search(r"who\s+is\s+the\s+ceo\s+of\s+([a-z&\-\s]+)\??$", qn)
+    )
+    if m:
+        return _ceo_of(m.group(1).strip())
 
-    # Fallback
-    return "", sources
+    # company led by person (cover both word orders)
+    m = (
+        re.search(r"(?:which|what)\s+company\s+does\s+([a-z\-\s]+)\s+lead\??", qn)
+        or re.search(r"([a-z\-\s]+)\s+leads\s+(?:which|what)\s+company\??", qn)
+        or re.search(r"which\s+company\s+is\s+([a-z\-\s]+)\s+(?:the\s+)?ceo\s+of\??", qn)
+    )
+    if m:
+        return _company_led_by(m.group(1).strip())
+
+    return "", []

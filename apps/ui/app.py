@@ -101,13 +101,17 @@ if st.button("Ask"):
     q2 = rewrite_question(base_query)
 
     # --- FAST PATH: pure math gets answered immediately ---
-    if eval_math(q2) is not None and re.fullmatch(r"[0-9\.\s\+\-\*/()%KMBT]+", q2):
-        ans = eval_math(q2)
-        decision_used = "math"
-        latency_ms = int((perf_counter() - t0) * 1000)
-
-        st.subheader("Final Answer ↪")
-        st.write(ans)
+    # --- FAST PATHS -----------------------------------------------------
+    if any(op in q2 for op in ["+", "-", "*", "/", "%", "^"]) or re.search(r"\d+\s*(%|M|K|\.\d+)?", q2):
+        try:
+            from services.tools.math_eval import eval_math
+            res = eval_math(q2)
+            if res is not None:
+                st.session_state["decision_used"] = "math"
+                st.write(f"🧮 **Answer:** {res}")
+                st.stop()
+        except Exception as e:
+            st.warning(f"Math agent error: {e}")
 
         # Log + bandit update
         log_route(base_query, decision_used, 1, latency_ms, rewritten=q2)
@@ -118,6 +122,17 @@ if st.button("Ask"):
             pass
 
         st.stop()
+    # --- FAST PATH: OCR / IMAGE ------------------------------------------
+    if uploaded_file is not None and uploaded_file.type in ["image/png", "image/jpeg"]:
+        text, latency = extract_text(uploaded_file.read())
+        if text:
+            st.session_state["decision_used"] = "ocr"
+            st.write("🖼️ **Extracted Text from Image:**")
+            st.code(text)
+            st.caption(f"OCR latency: {latency} ms")
+            st.stop()
+    else:
+        st.warning("⚠️ No readable text detected in the uploaded image.")    
     # --- end fast path ---
 
     # Decide which tools to try (order matters)
