@@ -1,24 +1,22 @@
-# OS/editor junk
 .DS_Store
-
-# Python cache
 __pycache__/
 *.pyc
 .venv/
 venv/
 
-# App data / models / logs
+# App data / caches / models
 data/vector_store/
 data/logs/
 data/chroma/
 data/models/
 data/tfidf_index.pkl
+
+# Neo4j data (HUGE)
 data/neo4j/
 infra/data/neo4j/
 infra/data/neo4j/**
+
+# Large artifacts
 *.pkl
 *.bin
 *.dylib
-
-# Local test files
-*.tar
